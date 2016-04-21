@@ -27,7 +27,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Unicorn as the app server
 # gem 'unicorn'
 
-gem 'mongoid'
+gem 'mongoid', '~> 5'
 gem 'bson_ext'
 gem 'twitter-bootstrap-rails'
 
