@@ -30,7 +30,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'mongoid', '~> 5'
 gem 'bson_ext'
 gem 'twitter-bootstrap-rails'
-
+gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
 
 
 # Use Capistrano for deployment
