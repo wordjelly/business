@@ -1,0 +1,65 @@
+<div class="bg-info" style="padding:20px; margin-top:20px;">
+	<div class="row">
+		<div class="col-xs-3">
+			<div style="margin-bottom: 10px;">FIELD-NAME</div>
+			<input type="text" class="piece_name"></input>
+		</div>
+		<div class="col-xs-3">
+			<div>FIELD-TYPE</div>
+			<div class="radio">
+			  <label>
+			    <input type="radio" name="optionsRadios" class="ft_text" value="option1" checked>
+			     Text
+			  </label>
+			</div>
+			<div class="radio">
+			  <label>
+			    <input type="radio" name="optionsRadios" class="ft_numeric" value="option2">
+			    Numeric
+			  </label>
+			</div>
+			<div class="radio">
+			  <label>
+			    <input type="radio" name="optionsRadios" class="ft_timestammp" value="option3">
+			    TimeStamp
+			  </label>
+			</div>
+			<div class="radio">
+			  <label>
+			    <input type="radio" name="optionsRadios" class="ft_mcq" value="option4">
+			    Multiple-Choice-Options
+			  </label>
+			</div>
+			<div class="radio">
+			  <label>
+			    <input type="radio" name="optionsRadios" class="ft_obj" value="option5">
+			    Object with fields
+			  </label>
+			</div>
+			<div class="radio">
+			  <label>
+			    <input type="radio" name="optionsRadios" class="ft_existing_obj" value="option6">
+			    Existing Object
+			  </label>
+			</div>
+		</div>
+		<div class="col-xs-3">
+			<div>FIELD DATASOURCE</div>
+			<div class="form-group">
+		    	<label for="exampleInputFile"></label>
+		    	<input type="file" id="exampleInputFile">
+		  	</div>
+		</div>
+		<div class="col-xs-3">
+			<div style="margin-bottom:10px">FIELD MODULES DROPDOWN LIST</div>
+			<select class="form-control">
+			  <option>Trackable</option>
+			  <option>Countable</option>
+			  <option>Schedulable</option>
+			  <option>Punchable</option>
+			  <option>Informable</option>
+			</select>
+		</div>
+	</div>
+	<button type="button" class="btn btn-danger remove_field">Remove This Field</button>
+</div>
