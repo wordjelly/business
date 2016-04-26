@@ -19,12 +19,16 @@
   <h2 style="margin-bottom:30px;">FIELDS</h2>
   
   <div id="pieces">
-    <%= render 'piece' %>
+    <%= render 'piece', :piece_id => @p_id, :parent_piece_id => @parent_p_id %>
   </div>
 
   <button type="button" class="btn btn-primary" style="margin-top:20px;" id="add-piece">Add Another Field</button>
   
   <div class="actions" style="margin-top:30px;">
-    <%= f.submit %>
+    
   </div>
 <% end %>
+<button id="create_thing">
+    <i class="fa fa-spin fa-refresh" id="create_thing_spinner" style="display:none;"></i>
+    Create Thing
+</button>

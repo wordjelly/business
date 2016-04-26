@@ -15,6 +15,8 @@ class ThingsController < ApplicationController
   # GET /things/new
   def new
     @thing = Thing.new
+    @p_id = get_piece_id
+    @parent_p_id = "root"
   end
 
   # GET /things/1/edit
@@ -24,17 +26,9 @@ class ThingsController < ApplicationController
   # POST /things
   # POST /things.json
   def create
+  ##  @thing = Thing.new(thing_params)
     @thing = Thing.new(thing_params)
-
-    respond_to do |format|
-      if @thing.save
-        format.html { redirect_to @thing, notice: 'Thing was successfully created.' }
-        format.json { render :show, status: :created, location: @thing }
-      else
-        format.html { render :new }
-        format.json { render json: @thing.errors, status: :unprocessable_entity }
-      end
-    end
+    render :partial => "thing_created.js.erb", :formats => [:js]
   end
 
   # PATCH/PUT /things/1
@@ -61,8 +55,12 @@ class ThingsController < ApplicationController
     end
   end
 
+  ##expected parameter is :parent_piece_id
   def add_field
-    render :partial => "piece.html.erb", :formats => [:js]
+    p = permitted_params
+    @parent_p_id = p[:parent_piece_id]
+    @p_id = get_piece_id
+    render :partial => "piece.html.erb", :formats => [:js], :locals => {:piece_id => @p_id, :parent_piece_id => @parent_p_id}
   end
 
   private
@@ -73,6 +71,16 @@ class ThingsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def thing_params
-      params.require(:thing).permit(:name, :schema)
+      params.require(:thing).permit(:name, :pieces => [:piece_id , :parent_piece_id])
     end
-end
+
+    def permitted_params
+      if action_name.to_s == "add_field"
+        params.permit(:parent_piece_id)
+      end
+    end
+
+    def get_piece_id
+      return Time.now.to_i.to_s
+    end
+end 
