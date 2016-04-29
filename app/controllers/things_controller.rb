@@ -74,13 +74,17 @@ class ThingsController < ApplicationController
       params.require(:thing).permit(:name, :pieces => [:piece_id , :parent_piece_id])
     end
 
+    ##while requesting a piece, the parent piece id must be provided.
     def permitted_params
       if action_name.to_s == "add_field"
         params.permit(:parent_piece_id)
       end
     end
 
+    ##returns a unique id for each piece that is requestd.
     def get_piece_id
       return Time.now.to_i.to_s
     end
+
+
 end 

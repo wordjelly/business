@@ -33,9 +33,11 @@ $(document).on('change','.ft_obj',function(){
 	});
 });
 
-
+/*****
+create new thing.
+*****/
 $(document).on('click','#create_thing',function(){
-	console.log("got this");
+	
 	//iterate all the pieces, and take their piece and parent piece ids.
 	//then submit, an array of pieces.
 	$("#create_thing_spinner").show();
@@ -59,6 +61,30 @@ $(document).on('click','#create_thing',function(){
     });
 
 });
+
+/****
+test function:
+
+****/
+$(document).on('click','#test_create_thing',function(){
+
+	var data_hash = {"thing":{"pieces":[{"parent_piece_id":"root", "piece_id":"1461937371"}, {"parent_piece_id":"1461937371", "piece_id":"1461937380"}, {"parent_piece_id":"1461937380", "piece_id":"1461937387"}, {"parent_piece_id":"1461937380", "piece_id":"1461937383"}, {"parent_piece_id":"root", "piece_id":"1461937393"}, {"parent_piece_id":"root", "piece_id":"1461937398"}], "name":"alabaster"}};
+
+	$.ajax({
+	  url:"/things",
+	  type:"POST",
+	  data:JSON.stringify(data_hash),
+	  contentType: 'application/json',
+	  dataType:"script",
+	  success: function(){
+	   
+   		
+	  }
+    });
+
+});
+
+
 
 $(document).ready(function(){
 	console.log("document is ready");
