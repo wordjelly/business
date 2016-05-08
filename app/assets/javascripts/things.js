@@ -64,7 +64,7 @@ $(document).on('click','#create_thing',function(){
 
 /****
 test function:
-
+this function is a one button click to test the server side functioning.
 ****/
 $(document).on('click','#test_create_thing',function(){
 
