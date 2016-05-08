@@ -14,15 +14,12 @@ class Thing
 
     child_to_parent = {}
 
-    ##holds the information about each piece.
+    
     nodes = {}
 
-    ##need to convert each piece into a node object.
-
-    ##Rails.logger.debug(self.pieces.to_s)
-    ##first pass
-    ##add node
+    
     root = Node.new({:piece_id => "root"})
+    
     nodes[root.piece_id] = root
   	self.pieces.each do |piece|
 		
@@ -81,12 +78,9 @@ class Thing
 
   	end
 
-  	##Rails.logger.debug(parent_to_child)
-  	parent_to_child = parent_to_child.sort_by{|k,v|
-  		##Rails.logger.debug("this is k")
-  		##Rails.logger.debug(k)
-  	 nodes[k].score}.reverse.to_h
-  	##Rails.logger.debug(JSON.pretty_generate(parent_to_child))
+  	
+  	parent_to_child = parent_to_child.sort_by{|k,v| nodes[k].score}.reverse.to_h
+  	
   	self.schema = JSON.generate(parent_to_child)
 
   end
