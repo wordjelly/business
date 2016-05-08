@@ -1,10 +1,10 @@
-<div class="piece bg-info" data-piece-id="<%= piece_id %>" data-parent-piece-id="<%= parent_piece_id %>" style="padding:20px; margin-top:20px;">
+<div class="piece bg-info" data-piece-id="<%= piece_id %>" data-parent-piece-id="<%= parent_piece_id %>" style="padding:20px; margin-top:1px; width:50%;">
 	<div class="row">
-		<div class="col-xs-3">
+		<div class="col-xs-2 col-lg-2">
 			<div style="margin-bottom: 10px;">FIELD-NAME</div>
-			<input type="text" class="piece_name"></input>
+			<input type="text" class="piece_name" style="width:100%;"></input>
 		</div>
-		<div class="col-xs-3">
+		<div class="col-xs-6 col-lg-5">
 			<div>FIELD-TYPE</div>
 			<div class="radio">
 			  <label>
@@ -30,36 +30,13 @@
 			    Multiple-Choice-Options
 			  </label>
 			</div>
-			<div class="radio">
-			  <label>
-			    <input type="radio" name="optionsRadios" class="ft_obj" value="object_field">
-			    Object with fields
-			  </label>
-			</div>
-			<div class="radio">
-			  <label>
-			    <input type="radio" name="optionsRadios" class="ft_existing_obj" value="existing_object_field">
-			    Existing Object
-			  </label>
-			</div>
-		</div>
-		<div class="col-xs-3">
-			<div>FIELD DATASOURCE</div>
-			<div class="form-group">
-		    	<label for="exampleInputFile"></label>
-		    	<input type="file" id="exampleInputFile">
-		  	</div>
-		</div>
-		<div class="col-xs-3">
-			<div style="margin-bottom:10px">FIELD MODULES DROPDOWN LIST</div>
-			<select class="form-control">
-			  <option>Trackable</option>
-			  <option>Countable</option>
-			  <option>Schedulable</option>
-			  <option>Punchable</option>
-			  <option>Informable</option>
-			</select>
 		</div>
 	</div>
+	<div style="margin-bottom:30px"></div>
+	
+	<button type="button" class="btn btn-primary add_subfield">Add Sub-Field</button>
+	<button type="button" class="btn btn-primary add_field_datasource">Add Datasource</button>
+	<button type="button" class="btn btn-primary add_field_modules">Add Modules</button>
 	<button type="button" class="btn btn-danger remove_field">Remove This Field</button>
+	
 </div>

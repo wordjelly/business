@@ -4,14 +4,20 @@ class Node
   ###
   #following three fields are used while building the tree.
   ###
-  field :score, type: Integer
-  field :piece_id, type: String
-  field :parent_piece_id, type: String
 
+  ##score is assigned internally, just to decide which field has the greatest number of grandchildren.
+  field :score, type: Integer
+
+  ##this is sent by the server.
+  field :piece_id, type: String
+
+  ##this is provided by the user, or defaults to root if not provided.
+  field :parent_piece_id, type: String, default: "root"
+
+  ##----------------------------------------------------------------
 
   ###
   #these fields are specific to the jsonform library.
-
 
   ##the name of the field
   field :title, type: String
@@ -52,7 +58,12 @@ class Node
   field :enum, type: Array
  
   after_initialize do |document|
-  	self.score = 1
+  	##set the score as 1 this is increment everytime a child is added somewhere below
+    self.score = 1
+
+    ##if it is an array or an object,or an enum, then some special treatment is necessary.
+    
+
   end
 
   def increment_score

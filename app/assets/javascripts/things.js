@@ -25,11 +25,11 @@ $(document).on('click','.remove_field',function(){
 });
 
 //functions to choose complex object as field type.
-$(document).on('change','.ft_obj',function(){
+$(document).on('click','.add_subfield',function(){
 	var parent = $(this).closest(".piece").first();
 	$.get( "/fields/add_field", {"parent_piece_id" : get_piece_id(parent)} )
 	  .done(function( data ) {
-	    $(data).insertAfter(parent);
+	  	$(parent).after("<div style='margin-left:80px; margin-top:20px;'>" + data + "</div>");
 	});
 });
 

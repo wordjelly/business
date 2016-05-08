@@ -71,7 +71,7 @@ class ThingsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def thing_params
-      params.require(:thing).permit(:name, :pieces => [:piece_id , :parent_piece_id])
+      params.require(:thing).permit(:name, :pieces => [:piece_id , :parent_piece_id, :title, :description, :default, :maxLength, :minimum, :maximum, :exclusiveMinimum, :exclusiveMaximum, :readOnly, :required, :type, :enum])
     end
 
     ##while requesting a piece, the parent piece id must be provided.
