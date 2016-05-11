@@ -1,8 +1,12 @@
 <div class="piece bg-info" data-piece-id="<%= piece_id %>" data-parent-piece-id="<%= parent_piece_id %>" style="padding:20px; margin-top:1px; width:50%;">
 	<div class="row">
 		<div class="col-xs-2 col-lg-2">
+			<!-- field title -->
 			<div style="margin-bottom: 10px;">FIELD-NAME</div>
 			<input type="text" class="piece_name" style="width:100%;"></input>
+			<!-- field description -->
+			<div style="margin-top: 20px; margin-bottom:10px;">Description</div>
+			<input type="text" class="piece_description" style="width:100%"></input>
 		</div>
 		<div class="col-xs-6 col-lg-5">
 			<div>FIELD-TYPE</div>
@@ -20,7 +24,7 @@
 			</div>
 			<div class="radio">
 			  <label>
-			    <input type="radio" name="optionsRadios" class="ft_timestammp" value="time_field">
+			    <input type="radio" name="optionsRadios" class="ft_timestamp" value="time_field">
 			    TimeStamp
 			  </label>
 			</div>
@@ -28,6 +32,12 @@
 			  <label>
 			    <input type="radio" name="optionsRadios" class="ft_mcq" value="multiple_choice_field">
 			    Multiple-Choice-Options
+			  </label>
+			</div>
+			<div class="radio">
+			  <label>
+			    <input type="radio" name="optionsRadios" class="ft_array" value="array_field">
+			    There will be more than one of this field.
 			  </label>
 			</div>
 		</div>
