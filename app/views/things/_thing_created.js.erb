@@ -1,2 +1,11 @@
+try{
 $("#create_thing_spinner").hide();
-$("body").append("<div>COMPLETED RESPONSE</div>");
+var q = ("<%= thing.to_json %>");
+var j = $("<div/>").html(q).text();
+j = JSON.parse(j);
+$("#business_form").jsonForm(j);
+console.log(j);
+}
+catch(err){
+	console.log(err);
+}

@@ -24,7 +24,7 @@ $(document).on('click','.remove_field',function(){
 	$(this).parent().hide();
 });
 
-//functions to choose complex object as field type.
+//functions to add new field.(either child or additoinal field.)
 $(document).on('click','.add_subfield',function(){
 	var parent = $(this).closest(".piece").first();
 	$.get( "/fields/add_field", {"parent_piece_id" : get_piece_id(parent)} )
@@ -32,6 +32,9 @@ $(document).on('click','.add_subfield',function(){
 	  	$(parent).after("<div style='margin-left:80px; margin-top:20px;'>" + data + "</div>");
 	});
 });
+
+//functions to show modal for mcq
+
 
 //handlers for all the options on the fields.
 //all are on click or keypress handlers.
@@ -47,6 +50,18 @@ $(document).on('click','.ft_text,.ft_numeric,.ft_timestamp,.ft_mcq,.ft_array',fu
 	$(this).closest(".piece").attr("data-piece-type",$(this).val());
 });
 
+//handles the modal creation for the mcq options.
+$(document).on('click','.ft_mcq',function(event){
+	$("#business_modal").modal('show');
+});
+
+//handles the confirmation of the mcq values on the mcq modal
+$(document).on('click','.mcq_options_confirm',function(event){
+	var enum_options = $(this).closest(".modal").find(".mcq_options_field").tagsinput('items');
+	$(this).closest(".piece").attr("data-piece-enum",enum_options);
+	$("#business_modal").modal('hide');
+});
+
 /*****
 create new thing.
 *****/
@@ -57,13 +72,13 @@ $(document).on('click','#create_thing',function(){
 	$("#create_thing_spinner").show();
 	var pieces = [];
 	$(".piece").each(function(index){
-		pieces.push({"parent_piece_id" : $(this).attr("data-parent-piece-id"),  "piece_id" : $(this).attr("data-piece-id"), "title": $(this).attr("data-piece-name"), "description": $(this).attr("data-piece-description"), "type": $(this).attr("data-piece-type")});
+		pieces.push({"parent_piece_id" : $(this).attr("data-parent-piece-id"),  "piece_id" : $(this).attr("data-piece-id"), "title": $(this).attr("data-piece-name"), "description": $(this).attr("data-piece-description"), "type": $(this).attr("data-piece-type"), "enum":$(this).attr("data-piece-enum")});
 	});
 
 	var data_hash = {"thing": {"pieces" : pieces, "name" : $("#thing_name").val()}};
 
-	console.log("this is the data hash");
-	console.log(data_hash);
+	//console.log("this is the data hash");
+	//console.log(data_hash);
 	
     $.ajax({
 	  url:"/things",

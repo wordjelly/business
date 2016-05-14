@@ -2,7 +2,7 @@ class Thing
   include Mongoid::Document
   field :name, type: String
   field :pieces, type: Array, default: []
-  field :schema, type: String
+  field :schema, type: Hash
 
   after_initialize do |document|
   	document.set_schema
@@ -21,9 +21,12 @@ class Thing
     nodes[root.piece_id] = root
   	self.pieces.each do |piece|
 		
-		##Rails.logger.debug(piece)
+		##some preinitialization code should be shifted to 
+		##before initialize for node, but mongoid does not offer a before_initialize_hook
 		piece["parent_piece_id"] = piece["parent_piece_id"].to_s
 		piece["piece_id"] = piece["piece_id"].to_s
+		piece["enum"] = piece["enum"].nil? ? nil : piece["enum"].split(",") 
+		
   		n = Node.new(piece)
 		nodes[n.piece_id.to_s] = n
 		
@@ -55,7 +58,18 @@ class Thing
 				break
 			else
 				##add the parent key to the curr par key in the parent to child hash
-				parent_to_child[curr_par][parent]["properties"] = parent_to_child[parent]
+
+				##determine if it is an array type or an object type.
+				##if it is an array type, then instead of properties use "items"
+				##if parent_to_child[curr_par][parent]["type"] == "array"
+				##else
+				##end
+
+				object_or_array = (parent_to_child[curr_par][parent]["type"] == "array") ? "items" : "properties"
+
+
+			
+				parent_to_child[curr_par][parent][object_or_array] = parent_to_child[parent]
 				##increment the value of the curr par in the node_scores.
 				nodes[curr_par].increment_score()
 
@@ -70,8 +84,8 @@ class Thing
   	
   	parent_to_child = parent_to_child.sort_by{|k,v| nodes[k].score}.reverse.to_h
   	
-  	Rails.logger.debug JSON.pretty_generate(parent_to_child)
-  	##we only want the topmost one.
+  	self.schema = parent_to_child["root"]
+
 
   end
 

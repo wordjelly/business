@@ -28,7 +28,8 @@ class ThingsController < ApplicationController
   def create
   ##  @thing = Thing.new(thing_params)
     @thing = Thing.new(thing_params)
-    render :partial => "thing_created.js.erb", :formats => [:js]
+    @thing.save
+    render :partial => "thing_created.js.erb", :locals => {:thing => @thing}, :formats => [:js]
   end
 
   # PATCH/PUT /things/1

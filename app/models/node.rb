@@ -72,4 +72,6 @@ class Node
   	self.score+=1
   end
 
+  
+
 end

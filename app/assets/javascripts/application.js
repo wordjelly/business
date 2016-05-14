@@ -14,5 +14,7 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require underscore
+//= require twitter/bootstrap
 //= require jsonform
+//= require bootstrap-tagsinput
 //= require_tree .

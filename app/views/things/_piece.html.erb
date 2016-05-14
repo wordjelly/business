@@ -12,31 +12,31 @@
 			<div>FIELD-TYPE</div>
 			<div class="radio">
 			  <label>
-			    <input type="radio" name="optionsRadios" class="ft_text" value="text_field" checked>
+			    <input type="radio" name="optionsRadios_<%= piece_id %>" class="ft_text" value="string" checked>
 			     Text
 			  </label>
 			</div>
 			<div class="radio">
 			  <label>
-			    <input type="radio" name="optionsRadios" class="ft_numeric" value="numeric_field">
+			    <input type="radio" name="optionsRadios_<%= piece_id %>" class="ft_numeric" value="number">
 			    Numeric
 			  </label>
 			</div>
 			<div class="radio">
 			  <label>
-			    <input type="radio" name="optionsRadios" class="ft_timestamp" value="time_field">
+			    <input type="radio" name="optionsRadios_<%= piece_id %>" class="ft_timestamp" value="number">
 			    TimeStamp
 			  </label>
 			</div>
 			<div class="radio">
 			  <label>
-			    <input type="radio" name="optionsRadios" class="ft_mcq" value="multiple_choice_field">
+			    <input type="radio" name="optionsRadios_<%= piece_id %>" class="ft_mcq" value="string">
 			    Multiple-Choice-Options
 			  </label>
 			</div>
 			<div class="radio">
 			  <label>
-			    <input type="radio" name="optionsRadios" class="ft_array" value="array_field">
+			    <input type="radio" name="optionsRadios_<%= piece_id %>" class="ft_array" value="array">
 			    There will be more than one of this field.
 			  </label>
 			</div>
@@ -48,5 +48,7 @@
 	<button type="button" class="btn btn-primary add_field_datasource">Add Datasource</button>
 	<button type="button" class="btn btn-primary add_field_modules">Add Modules</button>
 	<button type="button" class="btn btn-danger remove_field">Remove This Field</button>
-	
+	<!-- modal for the mcq options -->
+	<%= render partial: 'mcq_modal', layout: 'modal' %> 
+	<!-- ends -->
 </div>
