@@ -60,12 +60,10 @@ class Node
   after_initialize do |document|
   	##set the score as 1 this is increment everytime a child is added somewhere below
     self.score = 1
+  end
 
-    ##if it is an array or an object,
-    ##or an enum, then some special treatment is necessary.
-    Rails.logger.debug "all the attributes."
-    Rails.logger.debug self.attributes
-
+  def self.get_piece_id
+    return Time.now.to_i.to_s
   end
 
   def increment_score

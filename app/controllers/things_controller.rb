@@ -15,8 +15,9 @@ class ThingsController < ApplicationController
   # GET /things/new
   def new
     @thing = Thing.new
-    @p_id = get_piece_id
+    @p_id = Node.get_piece_id
     @parent_p_id = "root"
+    @p_type = "string"
   end
 
   # GET /things/1/edit
@@ -59,9 +60,10 @@ class ThingsController < ApplicationController
   ##expected parameter is :parent_piece_id
   def add_field
     p = permitted_params
-    @parent_p_id = p[:parent_piece_id]
-    @p_id = get_piece_id
-    render :partial => "piece.html.erb", :formats => [:js], :locals => {:piece_id => @p_id, :parent_piece_id => @parent_p_id}
+    @parent_p_id = p[:parent_piece_id].nil? ? "root" : p[:parent_piece_id] 
+    @p_id = Node.get_piece_id
+    @p_type = (@parent_piece_id == "root") ? "string" : "object"  
+    render :partial => "piece.html.erb", :formats => [:js], :locals => {:piece_id => @p_id, :parent_piece_id => @parent_p_id, :piece_type => @p_type}
   end
 
   private

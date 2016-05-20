@@ -8,6 +8,7 @@ class Thing
   	document.set_schema
   end
 
+
   def set_schema
 
     parent_to_child = {}
@@ -21,12 +22,12 @@ class Thing
     nodes[root.piece_id] = root
   	self.pieces.each do |piece|
 		
-		##some preinitialization code should be shifted to 
-		##before initialize for node, but mongoid does not offer a before_initialize_hook
 		piece["parent_piece_id"] = piece["parent_piece_id"].to_s
 		piece["piece_id"] = piece["piece_id"].to_s
-		piece["enum"] = piece["enum"].nil? ? nil : piece["enum"].split(",") 
-		
+		if !piece["enum"].nil?
+			piece["enum"] = piece["enum"].split(",")
+		end
+			
   		n = Node.new(piece)
 		nodes[n.piece_id.to_s] = n
 		
@@ -40,6 +41,22 @@ class Thing
 
   	end
 
+  	##FOR ARRAYS ONLY.
+  	##check if any of the arrays are such that they do not feature as keys in the parent to child hash.
+  	new_nodes = []
+  	nodes.each do |id,n|
+  		if (n.type == "array" && parent_to_child[id].nil?)
+  			##this array has no children.
+  			##so we must give it a default child.
+  			nn = Node.new(:piece_id => Node.get_piece_id(), :parent_piece_id => id, :type => "string", :title => n.title)
+  			parent_to_child[id] = {id => nn.attributes}
+  			child_to_parent[nn.id] = id
+  			new_nodes << nn
+  		end  
+  	end
+
+  	##add the new nodes.
+  	new_nodes.each do |nn|  nodes[nn.id] = nn  end
 
   	##now iterate the parent pieces.
   	parent_to_child.keys.each do |parent|
@@ -67,9 +84,29 @@ class Thing
 
 				object_or_array = (parent_to_child[curr_par][parent]["type"] == "array") ? "items" : "properties"
 
+				if object_or_array == "items"
+					##here we dont want to use the key.
+					##it needs only the values, and there can be only one
+					##since we cannot support an array of more than one object.
+					##all the subfields will be part of one object.
+					##if there are more than one values.
+					h = {}
+					h["type"] = "object"
+					h["properties"] = parent_to_child[parent]
+					puts parent_to_child[parent].to_s
+					
 
-			
-				parent_to_child[curr_par][parent][object_or_array] = parent_to_child[parent]
+					parent_to_child[curr_par][parent][object_or_array] = h
+
+					##we need to combine all these children into one object.
+					##we need to give it a name
+					##so we build it from the 
+
+				else
+					parent_to_child[curr_par][parent][object_or_array] = parent_to_child[parent]
+				end
+
+	
 				##increment the value of the curr par in the node_scores.
 				nodes[curr_par].increment_score()
 

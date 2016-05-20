@@ -3,6 +3,8 @@ $("#create_thing_spinner").hide();
 var q = ("<%= thing.to_json %>");
 var j = $("<div/>").html(q).text();
 j = JSON.parse(j);
+console.log("this is the schema sent to jsonform");
+console.log(j);
 $("#business_form").jsonForm(j);
 console.log(j);
 }

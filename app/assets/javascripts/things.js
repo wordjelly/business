@@ -77,9 +77,8 @@ $(document).on('click','#create_thing',function(){
 
 	var data_hash = {"thing": {"pieces" : pieces, "name" : $("#thing_name").val()}};
 
-	//console.log("this is the data hash");
-	//console.log(data_hash);
 	
+
     $.ajax({
 	  url:"/things",
 	  type:"POST",
