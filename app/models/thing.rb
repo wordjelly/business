@@ -93,44 +93,69 @@ class Thing
 
   	
 
-  	##now comes the real building part.
+  	##iterate each key in the parent to child hash.
+    ##basically this is a one-step-up iterative algorithm.
+    ##it takes a given parent key.(new_par)
+    ##it finds out if it has a parent.(called grandparent)(curr_par)
+    ##if yes, then it adds the entry of the given parent key, to the grandparent.
+
+    ##then it moves up, i.e treats the grandparent as the given_key(new_par), and checks if that has a parent(super-parent)(curr_par), and assigns the entry of the grandparent(which has just been modified in the previous step of the while loop) to the super-parent.
+    ##all these assignments go on in the parent_to_child hash.
+
   	parent_to_child.keys.each do |parent|
 
-  		
-		curr_par = curr_par.nil? ? child_to_parent[parent] : child_to_parent[curr_par]
+  	##curr par is a variable that holds the parent of the current key being iterated.
+    ##so we just take the parent of the current parent.
 
-		
-		while(true)
-			
-			new_par = new_par.nil? ? parent : new_par
+    curr_par = child_to_parent[parent]
 
-			if curr_par.nil?
-				break
-			else
+  		while(true)
+  			
+        ##the new_par is another variable that represents the current key of the parent_to_child hash being iterated.
 
-				object_or_array = (parent_to_child[curr_par][new_par]["type"] == "array") ? "items" : "properties"
+        ##basically this is an iterative system.
+        ##first we take the the parent of the current key being iterated.
+        ##that we assigned to curr_par
 
-				if object_or_array == "items"
-					h = {}
-					h["type"] = "object"
-					h["properties"] = parent_to_child[new_par]
-					puts parent_to_child[new_par].to_s
-					
+        ##then we assign the current key to new_par
+        ##at the end of the code block, we make new_par equal to curr_par.
+        ##then we make curr_par = to its parent.
+        ##so basically the hierarchy is as follows:
+        
+        ##curr_par --is_parent_of-- new_par
+        ##then at end of loop, new_par becomes old curr_par, and curr_par becomes its own parent.
+        ##curr_par(parent_of_curr_par) --is parent of-- new_par(old_curr_par)
+        ##in the beginning, we check if curr_par is nil, so if there is no parent of the old_curr_par, the while loop breaks out.
 
-					parent_to_child[curr_par][new_par][object_or_array] = h
+        ##the first time we run it , new_par will be nil, so we make it equal to the parent key, but thereafter if the loop continues, we leave it, since its not nil
+  			new_par = new_par.nil? ? parent : new_par
 
+  			if curr_par.nil?
+  				break
+  			else
 
-				else
-					parent_to_child[curr_par][new_par][object_or_array] = parent_to_child[new_par]
-				end
+          ##we need to determine if the node of the current key being iterated is an array or not.
+          ##since it is a key in the parent_to_child hash , it has children.
+          ##so we just have to determine if it is a array or object.
+          ##if it is an array, then set this "object_or_array" variable to items, otherwise set it to properties.
+  				object_or_array = (parent_to_child[curr_par][new_par]["type"] == "array") ? "items" : "properties"
 
-				nodes[curr_par].increment_score()
-				new_par = curr_par
-				curr_par = child_to_parent[curr_par]
-				
-			end
+  				if object_or_array == "items"
+  					h = {}
+  					h["type"] = "object"
+  					h["properties"] = parent_to_child[new_par]
+  					parent_to_child[curr_par][new_par][object_or_array] = h
+  				else
+  					parent_to_child[curr_par][new_par][object_or_array] = parent_to_child[new_par]
+  				end
 
-		end  		
+  				nodes[curr_par].increment_score()
+  				new_par = curr_par
+  				curr_par = child_to_parent[curr_par]
+  				
+  			end
+
+  		end  		
 
   	end
   	
