@@ -11,26 +11,57 @@ class Thing
 
   def set_schema
 
+  	##key -> parent_id
+  	##value -> hash  
+
+
+  	##hash structure
+  	##key -> child_id
+  	##value -> child node attributes
     parent_to_child = {}
 
+
+    ##key -> child_id
+    ##value -> parent_id
     child_to_parent = {}
-    
+    	
+    ##key -> node_id
+    ##value -> node
     nodes = {}
     
+    ##we create a new node, with the piece id of "root"
+    ##this is essential, because the api does not provide for sending in a root node.
     root = Node.new({:piece_id => "root"})
     
+    ##next we add this node to the nodes hash.
     nodes[root.piece_id] = root
+
+
+    ##now we iterate each of the pieces coming in.
   	self.pieces.each do |piece|
 		
+		##currently we have longs as the piece ids, so we convert them to strings
 		piece["parent_piece_id"] = piece["parent_piece_id"].to_s
+		##same for this as well.
 		piece["piece_id"] = piece["piece_id"].to_s
+
+		##if the enum is not nil, then we convert the enum into an array.
 		if !piece["enum"].nil?
 			piece["enum"] = piece["enum"].split(",")
 		end
-			
-  		n = Node.new(piece)
-		nodes[n.piece_id.to_s] = n
 		
+		##now we build a new node from this piece
+  		n = Node.new(piece)
+
+  		##we add it to the nodes hash.
+		nodes[n.piece_id.to_s] = n
+			
+
+		##time to add the current node to the parent_to_child and child_to_parent hashes.
+
+		##if the current nodes parent is not in the parent to child hash, then create a new entry in the hash, with the value as a hash , as described above.
+		##else
+		##just add to the current entry. 
 		if parent_to_child[n.parent_piece_id.to_s].nil?
 			parent_to_child[n.parent_piece_id.to_s] = {n.piece_id.to_s => n.attributes}
 		else
@@ -41,78 +72,62 @@ class Thing
 
   	end
 
-  	##FOR ARRAYS ONLY.
-  	##check if any of the arrays are such that they do not feature as keys in the parent to child hash.
+  	##this part is specifically for the array type
+  	##what happens is that if the user does not configure sub-fields for the array type, then we need to add a default sub-field for it.
+  	##so we check each of the nodes, to see if there is any array type that does not exist in the parent_to_child hash, i.e an array node, that does not have children
+  	##if found, then we create a new node, we make its parent piece, this array node , and give it a default type of string, and its title becomes the same as the array type ttitle.
+  	##we then add it to the parent_to_child and child_to_parent hashes, and also add it to the new nodes array.
   	new_nodes = []
   	nodes.each do |id,n|
   		if (n.type == "array" && parent_to_child[id].nil?)
-  			##this array has no children.
-  			##so we must give it a default child.
+  			
   			nn = Node.new(:piece_id => Node.get_piece_id(), :parent_piece_id => id, :type => "string", :title => n.title)
-  			parent_to_child[id] = {id => nn.attributes}
-  			child_to_parent[nn.id] = id
+  			parent_to_child[id] = {nn.piece_id => nn.attributes}
+  			child_to_parent[nn.piece_id] = id
   			new_nodes << nn
   		end  
   	end
 
-  	##add the new nodes.
+  	##each of the new nodes is added to the nodes hash.
   	new_nodes.each do |nn|  nodes[nn.id] = nn  end
 
-  	##now iterate the parent pieces.
+  	
+
+  	##now comes the real building part.
   	parent_to_child.keys.each do |parent|
 
-  		##Rails.logger.debug("doing parent key:" + parent)
-		##find the who is its parent.
+  		
 		curr_par = curr_par.nil? ? child_to_parent[parent] : child_to_parent[curr_par]
 
-		##Rails.logger.debug("this is the curr par")
-		##Rails.logger.debug(curr_par)
 		
 		while(true)
-		
+			
+			new_par = new_par.nil? ? parent : new_par
+
 			if curr_par.nil?
-				##Rails.logger.debug("curr par is nil")
 				break
 			else
-				##add the parent key to the curr par key in the parent to child hash
 
-				##determine if it is an array type or an object type.
-				##if it is an array type, then instead of properties use "items"
-				##if parent_to_child[curr_par][parent]["type"] == "array"
-				##else
-				##end
-
-				object_or_array = (parent_to_child[curr_par][parent]["type"] == "array") ? "items" : "properties"
+				object_or_array = (parent_to_child[curr_par][new_par]["type"] == "array") ? "items" : "properties"
 
 				if object_or_array == "items"
-					##here we dont want to use the key.
-					##it needs only the values, and there can be only one
-					##since we cannot support an array of more than one object.
-					##all the subfields will be part of one object.
-					##if there are more than one values.
 					h = {}
 					h["type"] = "object"
-					h["properties"] = parent_to_child[parent]
-					puts parent_to_child[parent].to_s
+					h["properties"] = parent_to_child[new_par]
+					puts parent_to_child[new_par].to_s
 					
 
-					parent_to_child[curr_par][parent][object_or_array] = h
+					parent_to_child[curr_par][new_par][object_or_array] = h
 
-					##we need to combine all these children into one object.
-					##we need to give it a name
-					##so we build it from the 
 
 				else
-					parent_to_child[curr_par][parent][object_or_array] = parent_to_child[parent]
+					parent_to_child[curr_par][new_par][object_or_array] = parent_to_child[new_par]
 				end
 
-	
-				##increment the value of the curr par in the node_scores.
 				nodes[curr_par].increment_score()
-
-				##need to change curr_par
-				##next curr parent is the current parents parent.
+				new_par = curr_par
 				curr_par = child_to_parent[curr_par]
+				
 			end
 
 		end  		

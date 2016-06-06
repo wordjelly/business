@@ -52,13 +52,17 @@ $(document).on('click','.ft_text,.ft_numeric,.ft_timestamp,.ft_mcq,.ft_array',fu
 
 //handles the modal creation for the mcq options.
 $(document).on('click','.ft_mcq',function(event){
+	var opener_piece = $(event.target).closest(".piece").attr("data-piece-id");
+	$("#business_modal").attr("data-opener-id",opener_piece);
 	$("#business_modal").modal('show');
+	
 });
 
 //handles the confirmation of the mcq values on the mcq modal
 $(document).on('click','.mcq_options_confirm',function(event){
 	var enum_options = $(this).closest(".modal").find(".mcq_options_field").tagsinput('items');
-	$(this).closest(".piece").attr("data-piece-enum",enum_options);
+	var opener_id = $("#business_modal").attr("data-opener-id");
+	$('[data-piece-id="'+ opener_id +'"]').attr("data-piece-enum",enum_options);
 	$("#business_modal").modal('hide');
 });
 
@@ -77,7 +81,8 @@ $(document).on('click','#create_thing',function(){
 
 	var data_hash = {"thing": {"pieces" : pieces, "name" : $("#thing_name").val()}};
 
-	
+	console.log("the data hash is :" );
+	console.log(data_hash);
 
     $.ajax({
 	  url:"/things",
