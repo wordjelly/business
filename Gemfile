@@ -32,7 +32,7 @@ gem 'bson_ext'
 gem 'twitter-bootstrap-rails'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
 gem 'gon'
-
+gem 'font-awesome-sass', '~> 3.2.1.4'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
