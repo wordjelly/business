@@ -12,6 +12,7 @@ We have the following actions in application_controller:
 We have the following concerns:
 1. permissions:
 	- this basically adds the rules about the visibility and authorship of whatever resource uses this concern.
+	- it has the following fields
 	- create_permissions
 	- read_permissions
 	- update_permissions
@@ -23,6 +24,7 @@ We have the following concerns:
 
 We have the following resources :
 1.schema
+	- inherits from base
 	- this is a mongoid document
 	- Fields
 		1. definition -> the schema definition
@@ -30,5 +32,18 @@ We have the following resources :
 		3. built by -> id of the user who built it.
 		4. version history -> 
 			name_of_user : fields added, fields deleted, fields modified
-		5.
+2.business
+	- inherits from base
+	- has an id
+	- image
+	- description
+	- name
+3.user
+	- all the user fields
+	- inherits from record
+4.record
+	- initializer needs a schema id
+	- inherits from base
+4.base
+	- incorporates all the common concerns.
 

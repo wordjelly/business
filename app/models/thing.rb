@@ -4,6 +4,51 @@ class Thing
   field :pieces, type: Array, default: []
   field :schema, type: Hash
 
+  ##the centralized api is to deal with sentences being typed in.
+  ##it will analyze the sentence for presence of things.
+  ##the actions and rules api, will be present on the things itself.
+  ##the rules will also come from typing.
+
+  ##the thing can also have processes.
+  ##for example:
+  ##APPOINTMENT PROCESS 1:
+
+  ##patient comes for appointment - log, commit, publish
+  ##patient visits first consultant - log, commit, publish
+  ##patient is advised several tests by doctor- log, commit, publish
+  ##patient does each test
+  ##patient visits first consultant
+  ##patient visits superconsultant
+  ##patient is advised prescriptions
+  ##doctor sets charges for patient.
+  ##patient visits reception
+  ##patient pays charges
+  ##patient leaves
+
+  ##but rules can be applied either to all actions or certain actions.
+  ##thing can have actions -> these are the things that the api has to 
+  ##be responsive to, and the ui will revolve around these.
+
+  ##these actions can have rules.
+
+  ##the rules can involve not only the current thing, but also other things
+
+  ##the rules can involve attributes from the current thing, as well 
+  ##as other things.
+
+  ##the actions have hooks.
+
+  ##before, after and during
+
+  ##default things that happen in before and after and during actions, 
+  ##are publish, commmit and log.
+  ##other actions can also be triggered.
+
+
+  ##all data stored in things, can be searched.
+
+
+
   after_initialize do |document|
   	document.set_schema
   end
@@ -162,6 +207,24 @@ class Thing
   	parent_to_child = parent_to_child.sort_by{|k,v| nodes[k].score}.reverse.to_h
   	
   	self.schema = parent_to_child["root"]
+    #puts "this is the schema"
+    #if !self.schema.nil?
+    #  puts JSON.pretty_generate(self.schema)
+    #end
+
+    ##need to put this schema into elasticsearch as a document mapping.
+    ##then we can commit new documents of this type into es.
+    ##we also need to maintain a list of fields.
+
+    ##TODO:
+
+    ##1.it should not set type : for pure objects
+    ##2.it should set type to nested for arrays of objects
+    ##3.create a new index called field_names
+    ##4.its structure should be final name of field, and name of document, as well as field address
+    ##5.on creating or changing thing, this index should get populated.
+    
+
 
 
   end
