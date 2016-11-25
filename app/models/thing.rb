@@ -53,6 +53,11 @@ class Thing
   	document.set_schema
   end
 
+  ##we put the mapping from the schema
+  after_save do |document|
+    Manager.put_mapping(document.schema)
+  end
+
 
   def set_schema
 
@@ -225,8 +230,8 @@ class Thing
     ##5.on creating or changing thing, this index should get populated.
     
 
-
-
   end
+
+
 
 end
