@@ -15,7 +15,7 @@ class ThingsController < ApplicationController
   # GET /things/new
   def new
     @thing = Thing.new
-    @p_id = Node.get_piece_id
+    @p_id = Node.new.id.to_s
     @parent_p_id = "root"
     @p_type = "string"
   end
@@ -61,8 +61,9 @@ class ThingsController < ApplicationController
   def add_field
     p = permitted_params
     @parent_p_id = p[:parent_piece_id].nil? ? "root" : p[:parent_piece_id] 
-    @p_id = Node.get_piece_id
-    @p_type = (@parent_piece_id == "root") ? "string" : "object"  
+    @p_id = Node.new.id.to_s
+    #@p_type = (@parent_piece_id == "root") ? "string" : "object"  
+    @p_type = "string"
     render :partial => "piece.html.erb", :formats => [:js], :locals => {:piece_id => @p_id, :parent_piece_id => @parent_p_id, :piece_type => @p_type}
   end
 

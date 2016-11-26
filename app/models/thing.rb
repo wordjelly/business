@@ -55,7 +55,7 @@ class Thing
 
   ##we put the mapping from the schema
   after_save do |document|
-    Manager.put_mapping(document.schema)
+    #Manager.put_mapping(document.schema)
   end
 
 
@@ -90,35 +90,35 @@ class Thing
     ##now we iterate each of the pieces coming in.
   	self.pieces.each do |piece|
 		
-		##currently we have longs as the piece ids, so we convert them to strings
-		piece["parent_piece_id"] = piece["parent_piece_id"].to_s
-		##same for this as well.
-		piece["piece_id"] = piece["piece_id"].to_s
+  		##currently we have longs as the piece ids, so we convert them to strings
+  		#piece["parent_piece_id"] = piece["parent_piece_id"].to_s
+  		##same for this as well.
+  		#piece["piece_id"] = piece["piece_id"].to_s
 
-		##if the enum is not nil, then we convert the enum into an array.
-		if !piece["enum"].nil?
-			piece["enum"] = piece["enum"].split(",")
-		end
-		
-		##now we build a new node from this piece
-  		n = Node.new(piece)
+  		##if the enum is not nil, then we convert the enum into an array.
+  		if !piece["enum"].nil?
+  			piece["enum"] = piece["enum"].split(",")
+  		end
+  		
+  		##now we build a new node from this piece
+    	n = Node.new(piece)
 
-  		##we add it to the nodes hash.
-		nodes[n.piece_id.to_s] = n
-			
+    	##we add it to the nodes hash.
+  		nodes[n.piece_id.to_s] = n
+  			
 
-		##time to add the current node to the parent_to_child and child_to_parent hashes.
+  		##time to add the current node to the parent_to_child and child_to_parent hashes.
 
-		##if the current nodes parent is not in the parent to child hash, then create a new entry in the hash, with the value as a hash , as described above.
-		##else
-		##just add to the current entry. 
-		if parent_to_child[n.parent_piece_id.to_s].nil?
-			parent_to_child[n.parent_piece_id.to_s] = {n.piece_id.to_s => n.attributes}
-		else
-			parent_to_child[n.parent_piece_id.to_s][n.piece_id.to_s] = n.attributes
-		end  	
+  		##if the current nodes parent is not in the parent to child hash, then create a new entry in the hash, with the value as a hash , as described above.
+  		##else
+  		##just add to the current entry. 
+  		if parent_to_child[n.parent_piece_id.to_s].nil?
+  			parent_to_child[n.parent_piece_id.to_s] = {n.piece_id.to_s => n.attributes}
+  		else
+  			parent_to_child[n.parent_piece_id.to_s][n.piece_id.to_s] = n.attributes
+  		end  	
 
-		child_to_parent[n.piece_id.to_s] = n.parent_piece_id.to_s
+  		child_to_parent[n.piece_id.to_s] = n.parent_piece_id.to_s
 
   	end
 
@@ -131,7 +131,7 @@ class Thing
   	nodes.each do |id,n|
   		if (n.type == "array" && parent_to_child[id].nil?)
   			
-  			nn = Node.new(:piece_id => Node.get_piece_id(), :parent_piece_id => id, :type => "string", :title => n.title)
+  			nn = Node.new(:parent_piece_id => id, :type => "string", :title => n.title)
   			parent_to_child[id] = {nn.piece_id => nn.attributes}
   			child_to_parent[nn.piece_id] = id
   			new_nodes << nn
@@ -145,11 +145,11 @@ class Thing
 
   	##iterate each key in the parent to child hash.
     ##basically this is a one-step-up iterative algorithm.
-    ##it takes a given parent key.(new_par)
-    ##it finds out if it has a parent.(called grandparent)(curr_par)
+    ##it takes a given parent key.(current_key)
+    ##it finds out if it has a parent.(called grandparent)(parent_of_current_key)
     ##if yes, then it adds the entry of the given parent key, to the grandparent.
 
-    ##then it moves up, i.e treats the grandparent as the given_key(new_par), and checks if that has a parent(super-parent)(curr_par), and assigns the entry of the grandparent(which has just been modified in the previous step of the while loop) to the super-parent.
+    ##then it moves up, i.e treats the grandparent as the given_key(current_key), and checks if that has a parent(super-parent)(parent_of_current_key), and assigns the entry of the grandparent(which has just been modified in the previous step of the while loop) to the super-parent.
     ##all these assignments go on in the parent_to_child hash.
 
   	parent_to_child.keys.each do |parent|
@@ -157,30 +157,30 @@ class Thing
   	##curr par is a variable that holds the parent of the current key being iterated.
     ##so we just take the parent of the current parent.
 
-    curr_par = child_to_parent[parent]
+    parent_of_current_key = child_to_parent[parent]
 
   		while(true)
   			
-        ##the new_par is another variable that represents the current key of the parent_to_child hash being iterated.
+        ##the current_key is another variable that represents the current key of the parent_to_child hash being iterated.
 
         ##basically this is an iterative system.
         ##first we take the the parent of the current key being iterated.
-        ##that we assigned to curr_par
+        ##that we assigned to parent_of_current_key
 
-        ##then we assign the current key to new_par
-        ##at the end of the code block, we make new_par equal to curr_par.
-        ##then we make curr_par = to its parent.
+        ##then we assign the current key to current_key
+        ##at the end of the code block, we make current_key equal to parent_of_current_key.
+        ##then we make parent_of_current_key = to its parent.
         ##so basically the hierarchy is as follows:
         
-        ##curr_par --is_parent_of-- new_par
-        ##then at end of loop, new_par becomes old curr_par, and curr_par becomes its own parent.
-        ##curr_par(parent_of_curr_par) --is parent of-- new_par(old_curr_par)
-        ##in the beginning, we check if curr_par is nil, so if there is no parent of the old_curr_par, the while loop breaks out.
+        ##parent_of_current_key --is_parent_of-- current_key
+        ##then at end of loop, current_key becomes old parent_of_current_key, and parent_of_current_key becomes its own parent.
+        ##parent_of_current_key(parent_of_parent_of_current_key) --is parent of-- current_key(old_parent_of_current_key)
+        ##in the beginning, we check if parent_of_current_key is nil, so if there is no parent of the old_parent_of_current_key, the while loop breaks out.
 
-        ##the first time we run it , new_par will be nil, so we make it equal to the parent key, but thereafter if the loop continues, we leave it, since its not nil
-  			new_par = new_par.nil? ? parent : new_par
+        ##the first time we run it , current_key will be nil, so we make it equal to the parent key, but thereafter if the loop continues, we leave it, since its not nil
+  			current_key = current_key.nil? ? parent : current_key
 
-  			if curr_par.nil?
+  			if parent_of_current_key.nil?
   				break
   			else
 
@@ -188,20 +188,23 @@ class Thing
           ##since it is a key in the parent_to_child hash , it has children.
           ##so we just have to determine if it is a array or object.
           ##if it is an array, then set this "object_or_array" variable to items, otherwise set it to properties.
-  				object_or_array = (parent_to_child[curr_par][new_par]["type"] == "array") ? "items" : "properties"
+          puts "parent of current key is: #{parent_of_current_key}"
+          puts "current key is: #{current_key}"
+  				object_or_array = (parent_to_child[parent_of_current_key][current_key]["type"] == "array") ? "items" : "properties"
 
   				if object_or_array == "items"
   					h = {}
   					h["type"] = "object"
-  					h["properties"] = parent_to_child[new_par]
-  					parent_to_child[curr_par][new_par][object_or_array] = h
+  					h["properties"] = parent_to_child[current_key]
+            parent_to_child[parent_of_current_key][current_key][object_or_array] = h
   				else
-  					parent_to_child[curr_par][new_par][object_or_array] = parent_to_child[new_par]
-  				end
+  					parent_to_child[parent_of_current_key][current_key][object_or_array] = parent_to_child[current_key]
+  				  parent_to_child[parent_of_current_key][current_key]["type"] = "object"
+          end
 
-  				nodes[curr_par].increment_score()
-  				new_par = curr_par
-  				curr_par = child_to_parent[curr_par]
+  				nodes[parent_of_current_key].increment_score()
+  				current_key = parent_of_current_key
+  				parent_of_current_key = child_to_parent[parent_of_current_key]
   				
   			end
 
@@ -213,9 +216,9 @@ class Thing
   	
   	self.schema = parent_to_child["root"]
     #puts "this is the schema"
-    #if !self.schema.nil?
-    #  puts JSON.pretty_generate(self.schema)
-    #end
+    if !self.schema.nil?
+      puts JSON.pretty_generate(self.schema)
+    end
 
     ##need to put this schema into elasticsearch as a document mapping.
     ##then we can commit new documents of this type into es.

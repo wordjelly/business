@@ -60,10 +60,10 @@ class Node
   after_initialize do |document|
   	##set the score as 1 this is increment everytime a child is added somewhere below
     self.score = 1
-  end
-
-  def self.get_piece_id
-    return Time.now.to_i.to_s
+    ##because root node will already have piece id as "root"
+    if self.piece_id.nil? 
+      self.piece_id = self.id.to_s
+    end
   end
 
   def increment_score
