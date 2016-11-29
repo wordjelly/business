@@ -34,7 +34,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
 gem 'gon'
 gem 'font-awesome-sass', '~> 3.2.1.4'
 gem "elasticsearch-persistence", require: 'elasticsearch/persistence/model'
-
+gem "engtagger"
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

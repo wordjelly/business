@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :inputs
   resources :things
   get 'fields/add_field' => "things#add_field"
   # The priority is based upon order of creation: first created -> highest priority.

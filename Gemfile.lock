@@ -80,6 +80,7 @@ GEM
     elasticsearch-transport (5.0.0)
       faraday
       multi_json
+    engtagger (0.2.1)
     equalizer (0.0.11)
     erubis (2.7.0)
     execjs (2.6.0)
@@ -220,6 +221,7 @@ DEPENDENCIES
   byebug
   coffee-rails (~> 4.1.0)
   elasticsearch-persistence
+  engtagger
   font-awesome-sass (~> 3.2.1.4)
   gon
   jbuilder (~> 2.0)

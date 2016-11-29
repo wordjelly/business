@@ -3,6 +3,7 @@ class Thing
   field :name, type: String
   field :pieces, type: Array, default: []
   field :schema, type: Hash
+  field :es_mapping, type: Hash
 
   ##the centralized api is to deal with sentences being typed in.
   ##it will analyze the sentence for presence of things.
@@ -11,6 +12,7 @@ class Thing
 
   ##the thing can also have processes.
   ##for example:
+  
   ##APPOINTMENT PROCESS 1:
 
   ##patient comes for appointment - log, commit, publish
@@ -57,8 +59,31 @@ class Thing
   after_save do |document|
     #Manager.put_mapping(document.schema)
   end
-
-
+=begin
+  def set_es_mapping
+    ##do we want to abstract out things, which are subfields.
+    ##in that case we want to leave a mark of its parent fields on it.
+    ##the right place to abstract out is
+    ##so patient has appointment.
+    ##it should have a field of its parent and child.
+    ##thats all.
+    ##so if something is an object.
+    ##then we have to 
+    self.es_mapping = self.schema
+    self.es_mapping.keys.each do |k|
+      curr_obj = self.es_mapping[k]
+      while(true)
+        ##do whatever you have to prune the object.
+        ##and create the mapping.
+        if curr_obj["properties"].nil?
+          break
+        else
+          curr_obj = curr_obj["properties"]
+        end
+      end
+    end
+  end
+=end
   def set_schema
 
   	##key -> parent_id
@@ -188,8 +213,7 @@ class Thing
           ##since it is a key in the parent_to_child hash , it has children.
           ##so we just have to determine if it is a array or object.
           ##if it is an array, then set this "object_or_array" variable to items, otherwise set it to properties.
-          puts "parent of current key is: #{parent_of_current_key}"
-          puts "current key is: #{current_key}"
+          
   				object_or_array = (parent_to_child[parent_of_current_key][current_key]["type"] == "array") ? "items" : "properties"
 
   				if object_or_array == "items"
@@ -215,6 +239,8 @@ class Thing
   	parent_to_child = parent_to_child.sort_by{|k,v| nodes[k].score}.reverse.to_h
   	
   	self.schema = parent_to_child["root"]
+    
+
     #puts "this is the schema"
     if !self.schema.nil?
       puts JSON.pretty_generate(self.schema)

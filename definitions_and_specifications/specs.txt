@@ -1,0 +1,103 @@
+can i use existing interface to make things?
+basically add_field will have to called and nouns will have to be highlighted.
+on clicking the noun, if add_field is called on it, a new thing is to be created.
+
+what modules will i need.
+
+1)Things module - adapt existing node and thing,
+so node and thing objects will continue. there are no nested mappings.
+furthermore all field names are stored in a seperate index
+which has autocomplete functionality.
+can field be changed by a particular user type
+
+thing descriptors:
+example:
+suppose i say "least number of patients"
+
+-1 week
+
+
+2)text parser module
+should have methods to detect parts of speech.
+to identify actions, and nouns, and simultaneously existing fields.
+to identify plurality and singularity
+is
+is not
+is greater than
+is less than
+is after
+is before
+is above
+is below
+since
+descriptions of time.
+
+all prepositions.
+
+parse the part after "is"
+get the nouns
+and their inferences.
+
+
+
+one action can connect to other actions, the popup should help you to get that
+
+-1 week.
+
+
+3)actions module, action class, after and before hooks.
+-2 weeks
+
+create.
+change
+
+patient can create an appointment
+		
+		date
+		doctor
+			- patients seen
+			- name
+			- qualification
+
+		reason for appointment
+		duration of appointment
+
+
+doctor can see a patient
+
+		- this will commit into the patient
+		- under seen -> doctor with a timestamp.
+		- after this action
+			- add charges to bill
+				add charges -> to bill
+
+
+4)rules:
+			
+-
+
+		doctor allotment rules:
+
+		if reason for appointment is "z" -> doctor is the one who has seen the least number of patients since morning.
+
+		--correlate everything possible, and let the user decide
+		need to add action.
+
+
+		appointment duration rules:
+		
+		if reason_for_appointment is "x" -> duration is
+											 
+		if reason for appointment is "y" -> duration is
+											
+
+
+
+5)process module, process class.
+
+
+
+5)independent modules
+
+
+6)query parsers
