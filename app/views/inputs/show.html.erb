@@ -1,8 +1,11 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Sentence:</strong>
-  <%= @input.sentence %>
+  <strong>You typed:<%= @input.sentence %></strong>
+  <br>
+  <b>Click on the words underlined in red, to build Things from, this is the first step to creating your software.</b>
+  <br>
+  <%= highlight(@input.sentence,@input.pos.keys,highlighter: '<em>\1</em>'){|match| link_to(match,new_thing_path(name: match),class: "prospective_thing")} %>
 </p>
 
 <%= link_to 'Edit', edit_input_path(@input) %> |

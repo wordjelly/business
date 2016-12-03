@@ -3,12 +3,12 @@ module Parser
 	included do
 		include Mongoid::Document
     	field :sentence, type: String
+    	field :pos, type: Hash, default: {}
 	end
 	def parse
 		tgr = EngTagger.new
-		self.sentence = tgr.get_readable(self.sentence)
-		##parser can do two things with the results
-		##it can try to build an action
-		##it can offer to build things out of nouns
+		tagged = tgr.add_tags(self.sentence)
+		self.pos = tgr.get_nouns(tagged)
+
 	end
 end
