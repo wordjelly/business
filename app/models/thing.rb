@@ -1,9 +1,11 @@
 class Thing
   include Mongoid::Document
+  include Insertable
   field :name, type: String
   field :pieces, type: Array, default: []
   field :schema, type: Hash
   field :es_mapping, type: Hash
+
 
   ##the centralized api is to deal with sentences being typed in.
   ##it will analyze the sentence for presence of things.

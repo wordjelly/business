@@ -1,0 +1,4 @@
+<% if @input.nil? %>
+	<% @input = Input.new %>
+<% end %>
+<%= render 'form' %>

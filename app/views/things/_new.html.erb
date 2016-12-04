@@ -1,0 +1,8 @@
+<!-- this partial is rendered whenever we want to create a new thing -->
+<!-- it contains the input field, which will be used to enter field data for this thing -->
+<!-- on entering the input -> it will go to the input controller, from there it will be parsed and returned, it will highlight the word, and provide a hash of additional options[id of existing object in es to use, whether it is recommended to create an object out of it] -->
+<!-- the input on returning should be committed to a data-object, that is finally sent to the the things_controller to save the thing -->
+<% if !t.name.nil? %>
+	<%= "Create Thing called:" + t.name %>
+<% end %>
+<%= render :partial => '/inputs/new' %>
