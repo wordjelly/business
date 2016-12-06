@@ -5,7 +5,7 @@ EngTagger.class_eval do
 	# it is used in parser.rb module.
 	def get_plural_nouns(tagged)
 	    return nil unless valid_text(tagged)
-	    tags = [NN]
+	    tags = [self::class::NN]
 	    build_matches_hash(build_trimmed(tagged, tags))
 	end
 

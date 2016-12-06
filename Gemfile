@@ -35,6 +35,7 @@ gem 'gon'
 gem 'font-awesome-sass', '~> 3.2.1.4'
 gem "elasticsearch-persistence", require: 'elasticsearch/persistence/model'
 gem "engtagger"
+gem 'responders', '~> 2.0'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

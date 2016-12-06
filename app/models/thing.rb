@@ -1,6 +1,5 @@
 class Thing
   include Mongoid::Document
-  include Insertable
   field :name, type: String
   field :pieces, type: Array, default: []
   field :schema, type: Hash

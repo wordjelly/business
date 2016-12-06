@@ -1,5 +1,6 @@
 class ThingsController < ApplicationController
   before_action :set_thing, only: [:show, :edit, :update, :destroy]
+  respond_to :html,:js
 
   # GET /things
   # GET /things.json
@@ -13,15 +14,12 @@ class ThingsController < ApplicationController
   end
 
   # GET /things/new
-  # @params[:name] -> optional, you can pass in a name for this thing, in which case it will be initialized with that name
-  # @params[:div_id] -> in case you are doing a javascript request, then you must provide the id of the div where this thing should be shown.
   def new
-    @thing = Thing.new(params)
+    @thing = Thing.new
     @p_id = Node.new.id.to_s
     @parent_p_id = "root"
     @p_type = "string"
     respond_with @thing
-    #render :partial => "new.js.erb", :locals => {:thing => @thing}, :format => [:js]
   end
 
   # GET /things/1/edit

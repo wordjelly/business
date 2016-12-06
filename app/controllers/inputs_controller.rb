@@ -1,6 +1,6 @@
 class InputsController < ApplicationController
   before_action :set_input, only: [:show, :edit, :update, :destroy]
-
+  respond_to :html,:js
   # GET /inputs
   # GET /inputs.json
   def index
@@ -15,6 +15,10 @@ class InputsController < ApplicationController
   # GET /inputs/new
   def new
     @input = Input.new
+    if !params[:div_id].nil?
+      @input.div_id = params[:div_id]
+    end
+    @input
   end
 
   # GET /inputs/1/edit
@@ -69,6 +73,11 @@ class InputsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def input_params
-      params.require(:input).permit(:sentence)
+      params.require(:input).permit(:sentence,:div_id)
     end
+
+    def permitted_params
+      params.permit(:div_id)
+    end 
+
 end

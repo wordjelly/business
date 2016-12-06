@@ -1,6 +1,5 @@
 class Node
   include Mongoid::Document
-  
   ###
   #following three fields are used while building the tree.
   ###
