@@ -15,7 +15,7 @@ class ThingsController < ApplicationController
 
   # GET /things/new
   def new
-    @thing = Thing.new
+    @thing = Thing.new(permitted_params)
     @p_id = Node.new.id.to_s
     @parent_p_id = "root"
     @p_type = "string"
@@ -82,7 +82,9 @@ class ThingsController < ApplicationController
     ##while requesting a piece, the parent piece id must be provided.
     def permitted_params
       if action_name.to_s == "add_field"
-        params.permit(:parent_piece_id)
+        params.permit(:parent_piece_id,:div_id)
+      elsif action_name.to_s == "new"
+        params.permit(:name,:div_id)
       end
     end
 

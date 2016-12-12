@@ -24,6 +24,14 @@
 
   <button type="button" class="btn btn-primary" style="margin-top:20px;" id="add-piece">Add Another Field</button>
   
+  <div id="inputs">
+    <% @thing.inputs.each do |i| %>
+      <% @input = Input.new(i) %>
+      <%= render 'inputs/form' %>
+    <% end %>
+  </div>
+
+
   <div class="actions" style="margin-top:30px;">
     
   </div>

@@ -28,6 +28,7 @@ class InputsController < ApplicationController
   # POST /inputs
   # POST /inputs.json
   def create
+    ##suppose input comes for thing creation.
     @input = Input.new(input_params)
     @input.parse
     respond_to do |format|
