@@ -37,6 +37,7 @@ gem "elasticsearch-persistence", require: 'elasticsearch/persistence/model'
 gem "engtagger"
 gem 'responders', '~> 2.0'
 
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

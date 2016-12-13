@@ -264,6 +264,23 @@ class Thing
 
   end
 
+  
+  ##@process: if the first input exists in the database then 
+  def has_inputs?
+    load_inputs
+    return self.loaded_inputs_array.size > 0
+  end
+
+  ##@process: loads the inputs from the database into the accessor element "Inputable.loaded_inputs_array"
+  def load_inputs
+    self.loaded_inputs_array = self.inputs.map{|c| 
+      begin
+        c = Input.find(c)
+      rescue
+        nil
+      end
+    }.compact
+  end
 
 
 end
