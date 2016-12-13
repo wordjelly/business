@@ -7,6 +7,10 @@ module Parser
 		field :plural_nouns, type: Hash, default: {}
 		field :existing_es_object_id, type: String
 		field :recommend_as_object, type: Integer
+
+		before_save do |document|
+			document.parse
+		end
 	end
 	
 	##simply stores the nouns in the sentence to the field :pos, which is a hash.
