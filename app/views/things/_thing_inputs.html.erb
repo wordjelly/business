@@ -1,0 +1,12 @@
+<% if @thing.has_inputs? %>  
+  <h4><%= @thing.name %> has the following fields:</h4>
+  <div id="inputs">
+    <% @thing.loaded_inputs_array.each do |i| %>
+      <%= render 'inputs/thing_field_show', locals: {:input => i} %>
+    <% end %>
+  </div>
+<% else %>
+  <h4><%= @thing.name %> currently has no fields, add some</h4>
+<% end %>
+
+<%= render 'inputs/thing_field_new' %>

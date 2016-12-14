@@ -16,26 +16,15 @@
     <%= f.text_field :name %>
   </div>
   
-  <% if @thing.has_inputs? %>  
-    <h4><%= @thing.name %> has the following fields:</h4>
-    <div id="inputs">
-      <% @thing.loaded_inputs_array.each do |i| %>
-        <%= render 'inputs/thing_field_show', locals: {:input => i} %>
-      <% end %>
-    </div>
-  <% else %>
-    <h4><%= @thing.name %> currently has no fields, add some</h4>
-  <% end %>
-
-  
-  <%= render 'inputs/thing_field_new' %>
-
   <%= render :partial => "piece_wrapper", locals: {:p_id => @p_id, :parent_p_id => @parent_p_id, :p_type => @p_type} %>
 
   <div class="actions" style="margin-top:30px;">
     
   </div>
 <% end %>
+
+<%= render 'thing_inputs' %>  
+
 <button id="create_thing">
     <i class="fa fa-spin fa-refresh" id="create_thing_spinner" style="display:none;"></i>
     Create Thing

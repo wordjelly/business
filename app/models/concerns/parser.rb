@@ -5,8 +5,7 @@ module Parser
     	field :sentence, type: String
     	field :nouns, type: Hash, default: {}
 		field :plural_nouns, type: Hash, default: {}
-		field :existing_es_object_id, type: String
-		field :recommend_as_object, type: Integer
+		
 
 		before_save do |document|
 			document.parse
@@ -22,16 +21,23 @@ module Parser
 		self.plural_nouns = tgr.get_plural_nouns(tagged)
 	end
 
-	##given a noun phrase / noun, checks if this is a registered object.
-	def is_existing_object?(word)
-		##search for it in
-	end
+	##input is going to return with suggestions and decision objects.
+	##the views will filter whatever is needed to be filtered.
+	
+	##has two fields
+	##suggestion, decision.
+	##both are objects.
 
-	##whether the noun/ noun phrase should be recommeded for object creation.
-	def recommend_for_object?(word)
 
-	end
-
+	##suggestion will be an object
+	##it has a name:
+	##and the following fields.
+	##existing_field details
+	##existing_thing details
+	##create_object : boolean, true if we think this needs more details
+	##select_field_type : always true, tell us what the field type is
+	
+	
 	##for each field the following things should be available
 	##1)recommended: add some details about "addresses"
 	##2)is this field selectable?

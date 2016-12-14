@@ -1,7 +1,7 @@
 <% unless @input %>
   <% @input = Input.new %>
 <% end %>
-<%= form_for(@input) do |f| %>
+<%= form_for(@input, remote: true) do |f| %>
   <% if @input.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@input.errors.count, "error") %> prohibited this input from being saved:</h2>
@@ -13,13 +13,7 @@
       </ul>
     </div>
   <% end %>
-
   <div class="field">
-    <%= f.label :sentence %><br>
-    <%= f.text_field :sentence %>
-    <h4>Example</h4>
-    <h5> It can have a <i>name</i></h5>
-    <h5>Or</h5>
-    <h5>It can have an <i>Age</i></h5>
+    <%= f.text_field :sentence, {placeholder: "e.g It can have a name", id: @input.id.to_s + "_sentence", class: "sentence"} %>
   </div>
 <% end %>

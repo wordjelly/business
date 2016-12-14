@@ -29,6 +29,8 @@ class InputsController < ApplicationController
   # POST /inputs.json
   def create
     @input = Input.new(input_params)
+    @input.save
+      
     respond_to do |format|
       if @input.save
         format.html { redirect_to @input, notice: 'Input was successfully created.' }
@@ -38,6 +40,7 @@ class InputsController < ApplicationController
         format.json { render json: @input.errors, status: :unprocessable_entity }
       end
     end
+
   end
 
   # PATCH/PUT /inputs/1
