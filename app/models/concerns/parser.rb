@@ -3,10 +3,12 @@ module Parser
 	included do
 		include Mongoid::Document
     	field :sentence, type: String
-    	field :nouns, type: Hash, default: {}
-		field :plural_nouns, type: Hash, default: {}
-		
-
+		field :tagged, type: String
+		##list of es search results
+		field :es_terms, type: Array, default: []
+		##in future will have stuff like:
+		#field :query
+		##
 		before_save do |document|
 			document.parse
 		end
@@ -16,9 +18,7 @@ module Parser
 	##used in InputsController, before_create
 	def parse
 		tgr = EngTagger.new
-		tagged = tgr.add_tags(self.sentence)
-		self.nouns = tgr.get_nouns(tagged)
-		self.plural_nouns = tgr.get_plural_nouns(tagged)
+		self.tagged = tgr.add_tags(self.sentence)
 	end
 
 	##input is going to return with suggestions and decision objects.

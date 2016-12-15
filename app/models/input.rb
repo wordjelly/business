@@ -1,5 +1,5 @@
 class Input
-  include Parser  
+  include Suggestion
   include Insertable
-  embeds_many :suggestions, cascade_callbacks: true
+  
 end
