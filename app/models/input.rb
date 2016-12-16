@@ -1,5 +1,4 @@
 class Input
-  include Suggestion
+  include Suggestable
   include Insertable
-  
 end

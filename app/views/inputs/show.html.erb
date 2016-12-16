@@ -5,9 +5,9 @@
   <br>
   <b>Click on the words underlined in red, to build Things from, this is the first step to creating your software.</b>
   <br>
-  <%= highlight(@input.sentence,@input.nouns.keys,highlighter: '<em>\1</em>'){|match| link_to(match,new_thing_path(div_id: match, name: match),{remote: true, class: "prospective_thing"})} %>
+  <%= highlight(@input.sentence,@input.tgr.get_nouns(@input.tagged).keys,highlighter: '<em>\1</em>'){|match| link_to(match,new_thing_path(div_id: match, name: match),{remote: true, class: "prospective_thing"})} %>
   
-  <% @input.nouns.keys.each do |n| %>
+  <% @input.tgr.get_nouns(@input.tagged).keys.each do |n| %>
   	<div id="<%= n.to_s %>" class="thing"></div>
   <% end %>
 </p>

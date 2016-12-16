@@ -15,14 +15,19 @@ module Suggestable
 	def build_suggestions
 		##populate the hash of suggestions.
 		s = {}	
-		
 	end
 
-	##@return : a hash of es search results.
-	##key -> phrase
-	##value -> sresult.
+	##@return : a Hashie::Mash object of es search results.
 	def search_sentence_in_es
-		return {}
+		response = Manager.gateway.client.search index: INDEX_NAME,
+              body: {
+                query: { 
+                	match: { 
+                		name: self.sentence 
+                	} 
+                }
+            }
+        return Hashie::Mash.new response
 	end
 
 

@@ -8,17 +8,27 @@ module Parser
 		field :es_terms, type: Array, default: []
 		##in future will have stuff like:
 		#field :query
-		##
+		
+		##store the tagger as an accessor, can be used on the instance 
+		##wherever needed.
+		attr_accessor :tgr
+
 		before_save do |document|
 			document.parse
 		end
+
+		after_initialize do |document|
+			document.set_tagger
+		end
 	end
 	
+	def set_tagger
+		@tgr = EngTagger.new
+	end
 	##simply stores the nouns in the sentence to the field :pos, which is a hash.
 	##used in InputsController, before_create
 	def parse
-		tgr = EngTagger.new
-		self.tagged = tgr.add_tags(self.sentence)
+		self.tagged = @tgr.add_tags(self.sentence)
 	end
 
 	##input is going to return with suggestions and decision objects.
