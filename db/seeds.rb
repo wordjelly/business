@@ -5,3 +5,20 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+Manager.gateway.client.create index: "business", type: "thing", body: {
+	name: "patient"
+}
+
+Manager.gateway.client.create index: "business", type: "thing", body: {
+  name: "first name"
+}
+
+Manager.gateway.client.create index: "business", type: "thing", body: {
+  name: "last name"
+}
+
+Manager.gateway.client.create index: "business", type: "thing", body: {
+  name: "doctor's last name"
+}  
+
