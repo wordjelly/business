@@ -11,24 +11,28 @@ module Suggestable
     	end
 	end
 
-	##we want to take the search results, from es, plus an other pos words that are not in the es results, and make suggestions out of them.
 	def build_suggestions
-		##JUST TAKE THE NAMES OF WHATEVER WAS FOUND,
-		##THEN SPLIT INTO NOUN PHRASES
-		##AS WELL AS NOUNS
-		##AND SUMMATE ALL OF THEM
-		##IF THE NOUN PHRASE ALREADY EXISTS, DO
-		search.hits.hits.each do |res|
+		search.hits.hits.each do |res|	
 			res.hightlight.name.each do |frag|
-				stripped = ActionView::Base.full_sanitizer.sanitize(frag)
-				suggestion = Suggestion.new(:phrase => stripped)
-				if s[stripped].nil?
-					s[stripped] = [suggestion]
-				else
-					s[stripped] << suggestion
+				suggestion_key = ""
+				frag.scan(/\<em\>(?<word>[a-zA-Z0-9_\s]+)\<\/em\>/) { |match|
+					jj = Regexp.last_match
+					suggestion_key += jj[:word]
+				}
+				suggestion = new Suggestion(res._source.name)
+				if self.suggestions[suggestion_key].nil?
+					self.suggestions[suggestion_key] = []
 				end
+				self.suggestions[suggestion_key] << suggestion
 			end
 		end
+
+		noun_phrases = TermExtractor.extract(self.sentence, :min_occurrence => 1, :min_terms => 1)
+		noun_phrases.keys.each do |nouns|
+
+		end 		
+		
+
 	end
 
 	##Searches in elasticsearch for all documents in the 'business' index, 
