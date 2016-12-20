@@ -36,7 +36,7 @@ gem 'font-awesome-sass', '~> 3.2.1.4'
 gem "elasticsearch-persistence", require: 'elasticsearch/persistence/model'
 gem "engtagger"
 gem 'responders', '~> 2.0'
-gem 'term-extract', :git => 'https://github.com/rrphotosoft/term-extract.git'
+gem 'term-extract', :git => 'https://github.com/wordjelly/term-extract.git'
 
 
 # Use Capistrano for deployment
