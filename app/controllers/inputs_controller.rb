@@ -28,9 +28,7 @@ class InputsController < ApplicationController
   # POST /inputs
   # POST /inputs.json
   def create
-    @input = Input.new(input_params)
-    @input.save
-      
+    @input = Input.new(input_params)  
     respond_to do |format|
       if @input.save
         format.html { redirect_to @input, notice: 'Input was successfully created.' }

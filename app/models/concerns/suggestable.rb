@@ -1,10 +1,12 @@
+require "term-extract"
 module Suggestable
 	extend ActiveSupport::Concern
 	included do
 		include Parser
 		##key -> phrase/word/bunch of words.
 		##value -> array of suggestion objects.
-    	field :suggestions, type: Hash, default: {}
+    	embeds_many :suggestions
+    	#field :suggestions, type: Hash, default: {}
 
     	before_save do |document|
     		document.build_suggestions
@@ -30,16 +32,19 @@ module Suggestable
 					jj = Regexp.last_match
 					suggestion_key += jj[:word]
 				}
-				suggestion = new Suggestion(res._source.name)
+				suggestion = Suggestion.new(:search_fragments => suggestion_key, :phrase => res._source.name)
 				suggestion.es_source = res._source
-				add_suggestion_to_hash(suggestion_key,suggestion)
+				self.suggestions << suggestion
 			end
 		end
 
-		noun_phrases = TermExtractor.extract(self.sentence, :min_occurrence => 1, :min_terms => 1)
-		(noun_phrases.keys + @tgr.get_verbs(self.tagged).keys).each do |w|
-			add_suggestion_to_hash(w,new Suggestion(w))
-		end 		
+		noun_phrases = TermExtract.extract(self.sentence, :min_occurrence => 1, :min_terms => 1)
+		
+		((noun_phrases.keys) + (@tgr.get_verbs(self.tagged)).keys).each do |w|
+			self.suggestions << Suggestion.new(:phrase => w)
+		end 	
+
+		#print_suggestions
 
 	end
 
@@ -62,16 +67,14 @@ module Suggestable
         return Hashie::Mash.new response
 	end
 
-	protected
-	##@param[String] k: the key for the suggestion in the suggestions hash.
-	##@param[Suggestion] v: the suggestion object to be added  
-	##@return[nil]
-	def add_suggestion_to_hash(k,v)
-		if self.suggestions[k].nil?
-			self.suggestions[k] = []
-		else
-		self.suggestions[k] << v
-		nil
+	protected 
+
+	def print_suggestions
+		puts "suggestion length is:"
+		puts self.suggestions.length
+		self.suggestions.each do |s|
+			puts JSON.pretty_generate(s.attributes)
+		end
 	end
 
 
