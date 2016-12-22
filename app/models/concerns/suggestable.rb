@@ -5,7 +5,7 @@ module Suggestable
 		include Parser
 		##key -> phrase/word/bunch of words.
 		##value -> array of suggestion objects.
-    	embeds_many :suggestions
+    	has_many :suggestions
     	#field :suggestions, type: Hash, default: {}
 
     	before_save do |document|

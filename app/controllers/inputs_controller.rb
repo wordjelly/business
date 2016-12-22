@@ -73,7 +73,7 @@ class InputsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def input_params
-      params.require(:input).permit(:sentence,:div_id)
+      params.require(:input).permit(:sentence,:div_id,{:input_for => []})
     end
 
     def permitted_params

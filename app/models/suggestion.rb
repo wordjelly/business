@@ -12,21 +12,24 @@ class Suggestion
 	##the word around which this suggestion was built.
 	field :phrase, type: String
 
-	##show the user a link to create a thing by the name of the phrase
-	field :default_create_thing, type: Boolean, default: false
-
-	##show the user a link to create an action by the name of the phrase
-	field :default_create_action, type: Boolean, default: false
-
-	##show the user a link to create a process by the name of the phrase
-	field :default_create_process, type: Boolean, default: false
-
-	##show the user a link to finalize the current phrase as a field.
-	field :default_create_field, type: Boolean, default: false
-
 	##source object of the elasticsearch result for this suggestion object.
 	field :es_source, type: Hash
 
-	embedded_in :suggestable
+	belongs_to :suggestable
+
+
+	##suppose they click create thing - NEW ONE.
+		##it will create a new thing in the es_database
+		##it will then show that thing
+	##suppose they click create_thing_like_existing
+		##it will create a new thing in the es_database, but using
+		##all the data from the existing definition.
+	##when showing a thing, it will have to give option to edit
+		#each field.
+	## => it will also have to give option to add new field.
+
+	##suppose they click create field
+	
+
 
 end
