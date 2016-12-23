@@ -18,6 +18,12 @@ class Suggestion
 	belongs_to :suggestable
 
 
+	##so we need a field info index
+	##and a thing document type
+	##thing will store nothing
+	##field will store thing id.
+	
+
 	##suppose they click create thing - NEW ONE.
 		##it will create a new thing in the es_database
 		##it will then show that thing

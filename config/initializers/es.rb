@@ -57,6 +57,37 @@ def create_index(client)
 						properties: {
 							name:{
 								type: "string"
+							},
+							description:{
+								type: "string"
+							}
+						}
+					},
+					field_info: {
+						properties: {
+							##the name of the field.
+							name:{
+								type: "string"
+							},
+							##the description of the field.
+							description:{
+								type: "string"
+							},
+							##the id of the thing to which this field belongs.
+							thing_id:{
+								type: "string"
+							},
+							##the id of the parent field of this field.
+							parent_field_id:{
+								type: "string"
+							},
+							##the ids of the child fields of this field.
+							child_thing_ids:{
+								type: "string"
+							},
+							##the id of the enum object -> for options for this field
+							enum_id:{
+								type: "string"
 							}
 						}
 					}

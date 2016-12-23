@@ -1,4 +1,21 @@
 GIT
+  remote: git://github.com/elasticsearch/elasticsearch-rails.git
+  revision: b6d485748c71a07d064ea2a46a6da82d64a04cd7
+  specs:
+    elasticsearch-model (0.1.9)
+      activesupport (> 3)
+      elasticsearch (> 0.4)
+      hashie
+    elasticsearch-persistence (0.1.9)
+      activemodel (> 3)
+      activesupport (> 3)
+      elasticsearch (> 0.4)
+      elasticsearch-model (>= 0.1)
+      hashie
+      virtus
+    elasticsearch-rails (0.1.9)
+
+GIT
   remote: https://github.com/wordjelly/term-extract.git
   revision: 2f1f4e06b09d38977523cc19faf5c2fd853f1b8a
   specs:
@@ -73,17 +90,6 @@ GEM
       elasticsearch-transport (= 5.0.0)
     elasticsearch-api (5.0.0)
       multi_json
-    elasticsearch-model (0.1.9)
-      activesupport (> 3)
-      elasticsearch (> 0.4)
-      hashie
-    elasticsearch-persistence (0.1.9)
-      activemodel (> 3)
-      activesupport (> 3)
-      elasticsearch (> 0.4)
-      elasticsearch-model (>= 0.1)
-      hashie
-      virtus
     elasticsearch-transport (5.0.0)
       faraday
       multi_json
@@ -231,7 +237,9 @@ DEPENDENCIES
   bson_ext
   byebug
   coffee-rails (~> 4.1.0)
+  elasticsearch-model!
   elasticsearch-persistence
+  elasticsearch-rails
   engtagger
   font-awesome-sass (~> 3.2.1.4)
   gon

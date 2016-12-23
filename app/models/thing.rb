@@ -7,7 +7,9 @@ class Thing
   field :schema, type: Hash
   field :es_mapping, type: Hash
 
-
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
+  
   ##the centralized api is to deal with sentences being typed in.
   ##it will analyze the sentence for presence of things.
   ##the actions and rules api, will be present on the things itself.

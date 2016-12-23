@@ -33,7 +33,9 @@ gem 'twitter-bootstrap-rails'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
 gem 'gon'
 gem 'font-awesome-sass', '~> 3.2.1.4'
+gem "elasticsearch-rails"
 gem "elasticsearch-persistence", require: 'elasticsearch/persistence/model'
+gem 'elasticsearch-model', git: 'git://github.com/elasticsearch/elasticsearch-rails.git'
 gem "engtagger"
 gem 'responders', '~> 2.0'
 gem 'term-extract', :git => 'https://github.com/wordjelly/term-extract.git'
