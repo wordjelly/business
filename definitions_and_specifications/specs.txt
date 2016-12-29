@@ -101,3 +101,70 @@ doctor can see a patient
 
 
 6)query parsers
+
+
+--------------
+
+  ##the centralized api is to deal with sentences being typed in.
+  ##it will analyze the sentence for presence of things.
+  ##the actions and rules api, will be present on the things itself.
+  ##the rules will also come from typing.
+
+  ##the thing can also have processes.
+  ##for example:
+  
+  ##APPOINTMENT PROCESS 1:
+
+  ##patient comes for appointment - log, commit, publish
+  ##patient visits first consultant - log, commit, publish
+  ##patient is advised several tests by doctor- log, commit, publish
+  ##patient does each test
+  ##patient visits first consultant
+  ##patient visits superconsultant
+  ##patient is advised prescriptions
+  ##doctor sets charges for patient.
+  ##patient visits reception
+  ##patient pays charges
+  ##patient leaves
+
+  ##but rules can be applied either to all actions or certain actions.
+  ##thing can have actions -> these are the things that the api has to 
+  ##be responsive to, and the ui will revolve around these.
+
+  ##these actions can have rules.
+
+  ##the rules can involve not only the current thing, but also other things
+
+  ##the rules can involve attributes from the current thing, as well 
+  ##as other things.
+
+  ##the actions have hooks.
+
+  ##before, after and during
+
+  ##default things that happen in before and after and during actions, 
+  ##are publish, commmit and log.
+  ##other actions can also be triggered.
+
+
+  ##all data stored in things, can be searched.
+
+------------
+
+##thing has two fields
+  ##name and es_type
+  ##es_type has to be generated on initialization, together with id.
+  ##it can be a simply name_time_of_creation,
+  ##so that after initialization code can be shifted to a concern.
+  
+  ##after_save has to update the mapping of es_type
+  ##the schema can contain array of node objects.
+  ##these node objects should respect the jsonForm criteria.
+  ##if a particular field is to have subfields.
+  ##then it should become a new type.
+  ##now while rendering this 
+  ##the option to add that particular sub thing, should be 
+  ##rendering a partial with that 
+  ##so there will have to be stored, the thing id for that sub-thing.
+  ##so instead of this , why not make all subfields as things only.
+  ##?
