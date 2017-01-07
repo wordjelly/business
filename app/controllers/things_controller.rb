@@ -85,6 +85,8 @@ class ThingsController < ApplicationController
         params.permit(:parent_piece_id,:div_id)
       elsif action_name.to_s == "new"
         params.permit(:name,:div_id)
+      elsif action_name.to_s == "create" || action_name.to_s == "update"
+        params.require(:thing).permit(:parent)
       end
     end
 

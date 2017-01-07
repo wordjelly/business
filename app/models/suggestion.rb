@@ -22,7 +22,6 @@ class Suggestion
 	##and a thing document type
 	##thing will store nothing
 	##field will store thing id.
-	
 
 	##suppose they click create thing - NEW ONE.
 		##it will create a new thing in the es_database

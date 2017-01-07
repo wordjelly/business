@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-
+gem 'rake', '11.2.2'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.6'
 # Use SCSS for stylesheets
@@ -39,6 +39,7 @@ gem 'elasticsearch-model', git: 'git://github.com/elasticsearch/elasticsearch-ra
 gem "engtagger"
 gem 'responders', '~> 2.0'
 gem 'term-extract', :git => 'https://github.com/wordjelly/term-extract.git'
+gem 'mongoid_versioned_atomic', :git => "https://github.com/wordjelly/mongoid-versioned-atomic.git"
 
 
 # Use Capistrano for deployment

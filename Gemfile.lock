@@ -16,6 +16,17 @@ GIT
     elasticsearch-rails (0.1.9)
 
 GIT
+  remote: https://github.com/wordjelly/mongoid-versioned-atomic.git
+  revision: 500f6598e5c415052411e5585e954131f3ecf5da
+  specs:
+    mongoid_versioned_atomic (0.0.1)
+      aws-sdk (~> 1.3.4)
+      mongoid (~> 5.0.1)
+      mongoid-paperclip
+      rails (~> 4.2.4)
+      rake (= 11.2.2)
+
+GIT
   remote: https://github.com/wordjelly/term-extract.git
   revision: 2f1f4e06b09d38977523cc19faf5c2fd853f1b8a
   specs:
@@ -60,7 +71,12 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
-    arel (6.0.3)
+    arel (6.0.4)
+    aws-sdk (1.3.9)
+      httparty (~> 0.7)
+      json (~> 1.4)
+      nokogiri (>= 1.4.4)
+      uuidtools (~> 2.1)
     axiom-types (0.1.1)
       descendants_tracker (~> 0.0.4)
       ice_nine (~> 0.11.0)
@@ -71,6 +87,9 @@ GEM
     bson_ext (1.5.1)
     builder (3.2.2)
     byebug (9.0.6)
+    climate_control (0.1.0)
+    cocaine (0.5.8)
+      climate_control (>= 0.0.3, < 1.0)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     coffee-rails (4.1.1)
@@ -81,7 +100,7 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     commonjs (0.2.7)
-    concurrent-ruby (1.0.3)
+    concurrent-ruby (1.0.4)
     debug_inspector (0.0.2)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
@@ -97,7 +116,7 @@ GEM
     equalizer (0.0.11)
     erubis (2.7.0)
     execjs (2.7.0)
-    faraday (0.10.0)
+    faraday (0.10.1)
       multipart-post (>= 1.2, < 3)
     font-awesome-sass (3.2.1.4)
       sass-rails (>= 3.1.1)
@@ -109,12 +128,14 @@ GEM
       multi_json
       request_store (>= 1.0)
     hashie (3.4.6)
+    httparty (0.14.0)
+      multi_xml (>= 0.5.2)
     i18n (0.7.0)
     ice_nine (0.11.2)
     jbuilder (2.6.1)
       activesupport (>= 3.0.0, < 5.1)
       multi_json (~> 1.2)
-    jquery-rails (4.2.1)
+    jquery-rails (4.2.2)
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
@@ -133,22 +154,33 @@ GEM
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
+    mimemagic (0.3.2)
     mini_portile2 (2.1.0)
     minitest (5.10.1)
-    mongo (2.4.0)
-      bson (~> 4.2.0)
-    mongoid (5.1.6)
+    mongo (2.4.1)
+      bson (>= 4.2.1, < 5.0.0)
+    mongoid (5.0.2)
       activemodel (~> 4.0)
       mongo (~> 2.1)
-      origin (~> 2.2)
+      origin (~> 2.1)
       tzinfo (>= 0.3.37)
+    mongoid-paperclip (0.0.11)
+      mongoid
+      paperclip (>= 2.3.6, != 4.3.0)
     multi_json (1.12.1)
+    multi_xml (0.6.0)
     multipart-post (2.0.0)
-    nokogiri (1.6.8.1)
+    nokogiri (1.7.0.1)
       mini_portile2 (~> 2.1.0)
-    nokogiri (1.6.8.1-x86-mingw32)
+    nokogiri (1.7.0.1-x86-mingw32)
       mini_portile2 (~> 2.1.0)
-    origin (2.2.2)
+    origin (2.3.0)
+    paperclip (5.1.0)
+      activemodel (>= 4.2.0)
+      activesupport (>= 4.2.0)
+      cocaine (~> 0.5.5)
+      mime-types
+      mimemagic (~> 0.3.0)
     rack (1.6.5)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -165,9 +197,9 @@ GEM
       sprockets-rails
     rails-deprecated_sanitizer (1.0.3)
       activesupport (>= 4.2.0.alpha)
-    rails-dom-testing (1.0.7)
+    rails-dom-testing (1.0.8)
       activesupport (>= 4.2.0.beta, < 5.0)
-      nokogiri (~> 1.6.0)
+      nokogiri (~> 1.6)
       rails-deprecated_sanitizer (>= 1.0.1)
     rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
@@ -176,10 +208,10 @@ GEM
       activesupport (= 4.2.6)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-    rake (12.0.0)
+    rake (11.2.2)
     rbtagger (0.4.7)
     rdoc (4.3.0)
-    request_store (1.3.1)
+    request_store (1.3.2)
     responders (2.3.0)
       railties (>= 4.2.0, < 5.1)
     sass (3.4.23)
@@ -218,6 +250,7 @@ GEM
       tzinfo (>= 1.0.0)
     uglifier (3.0.4)
       execjs (>= 0.3.0, < 3)
+    uuidtools (2.1.5)
     virtus (1.0.5)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
@@ -246,7 +279,9 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   mongoid (~> 5)
+  mongoid_versioned_atomic!
   rails (= 4.2.6)
+  rake (= 11.2.2)
   responders (~> 2.0)
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
@@ -259,4 +294,4 @@ DEPENDENCIES
   web-console (~> 2.0)
 
 BUNDLED WITH
-   1.13.6
+   1.13.7
